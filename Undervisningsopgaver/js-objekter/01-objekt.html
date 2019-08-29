@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom</title>
+    <style>
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <article>
+
+        <h1> </h1>
+        <p class="email"> </p>
+        <img src="" alt="">
+
+
+    </article>
+
+
+
+
+
+    <script>
+        const person = {
+            "fornavn": "jonas",
+            "efternavn": "Lacentra",
+            "email": "Jonas@hotmail.com",
+            "billed": "http://mabe-kea.dk/martin.jpg"
+        }
+
+
+        //Mulighed 1//
+        let tekst = "mit fornavn er " + person.fornavn + " og mit efternavn er " + person.efternavn;
+
+        //Mulighed 2//
+        let tekst2 = `mit fornavn er ${person.fornavn} og mit efternavn er ${person.efternavn};`
+
+        const navnecontainer = document.querySelector("h1");
+        const emailcontainer = document.querySelector(".email");
+        const billedcontainer = document.querySelector(".img");
+
+        navnecontainer.textContent = `${person.fornavn} ${person.efternavn}`;
+        emailcontainer.textContent = person.email;
+        billedcontainer.src = person.billed
+
+        console.log(tekst2);
+
+    </script>
+
+
+</body>
+
+</html>

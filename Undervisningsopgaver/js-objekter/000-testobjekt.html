@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom</title>
+    <style>
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <article>
+
+
+    </article>
+
+
+
+
+
+    <script>
+        const person = [{
+                "fornavn": "jonas",
+                "efternavn": "Lacentra",
+                "email": "Jonas@hotmail.com",
+            },
+
+            {
+                "fornavn": "Hans",
+                "efternavn": "Madsen",
+                "email": "Hans@hotmail.com",
+            },
+
+            {
+                "fornavn": "Jørgen",
+                "efternavn": "Larsen",
+                "email": "larsen@hotmail.com",
+            },
+
+            {
+                "fornavn": "Simon",
+                "efternavn": "Nielsen",
+                "email": "Simon@hotmail.com",
+            }
+        ]
+
+
+        personer.forEach(personer => {
+            //console.log(${personer.fornavn} ${personer.efternavn});
+
+            document.querySelector("article").innerHTML += `<p>${personer.fornavn} ${personer.efternavn}</p> `
+        })
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom</title>
+    <style>
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <article>
+
+        <h2 class="overskift"> </h2>
+        <img src="http://mabe-kea.dk/E19/pics/pig.png" alt="gris">
+        <p class="beskrivelse">type</p>
+
+        <p class="beskrivelse2">levested</p>
+
+
+    </article>
+
+
+
+
+
+    <script>
+        const dyr = {
+            "navn": "Gris",
+            "type": "Pattedyr",
+            "billed": "http://mabe-kea.dk/E19/pics/pig.png",
+            "levested": "svinefarm"
+        }
+
+
+
+        const navncontainer = document.querySelector("h2");
+        const typecontainer = document.querySelector(".beskrivelse");
+        const billedcontainer = document.querySelector(".img");
+        const levestedcontainer = document.querySelector(".beskrivelse2")
+
+        navncontainer.textContent = `${dyr.navn}`;
+        typecontainer.textContent += `${dyr.type}`;
+        billedcontainer.src = dyr.billed;
+        levestedcontainer.textContent += `${dyr.levested}`;
+
+        console.log(dyr);
+
+
+
+
+
+        console.log(dyr);
+    </script>
+
+
+</body></html>
