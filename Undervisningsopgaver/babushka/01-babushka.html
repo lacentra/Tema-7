@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <link href="https://fonts.googleapis.com/css?family=Lexend+Zetta&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: darkgoldenrod;
+        }
+
+        img {
+            width: 100%;
+
+        }
+
+        .modtager {
+            text-align: center;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 1080px;
+            margin: 0 auto;
+
+
+        }
+
+        #popup {
+
+
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 1000vw;
+
+            display: none;
+
+
+        }
+
+        #popup p {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .indhold {
+
+            width: 70vw;
+            min-height: 50vh;
+            background: #FFF;
+            margin: 4rem auto;
+            padding: 10px;
+            text-align: center;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 1080px;
+            background: darkgoldenrod;
+
+        }
+
+        .luk {
+            position: fixed;
+            right: 0;
+            font-size: 2rem;
+
+
+        }
+
+        .enkeltperson h2 {
+
+            margin: 8px;
+        }
+
+
+
+
+        .billede {
+            width: 30vw;
+            height: 25vw;
+            margin-left: 8px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin: 10px;
+
+        }
+
+        .modtager {
+            text-align: center;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 1080px;
+            margin: 0 auto;
+
+
+        }
+
+        .filter:hover {
+            background: grey;
+        }
+
+        .filter:focus {
+            background: orange;
+        }
+
+        .filter {
+            margin-right: 12px;
+
+        }
+
+        article {
+            border: 4px solid black
+        }
+
+
+        article:nth-child(even) {
+
+            background: orange;
+        }
+
+        article:nth-child(odd) {
+
+            background: green;
+        }
+
+        @media screen and (min-width:600px) {
+            .modtager {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+        }
+
+        @media screen and (min-width:960px) {
+            .modtager {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+
+        }
+
+
+
+        .overskift {
+            display: block;
+            background: darkgoldenrod;
+            width: 100vw;
+            height: 10vw;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+
+
+
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-family: 'Lexend Zetta', sans-serif;
+            color: darkred;
+        }
+
+        @media screen and (min-width:600px) {
+            .overskift {
+                line-height: 90px;
+            }
+
+
+        }
+
+        @media screen and (min-width:960px) {
+            .overskift {
+                line-height: 130px;
+            }
+
+
+        }
+
+        @media screen and (min-width:600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+
+        }
+
+        @media screen and (min-width:960px) {
+            h1 {
+                font-size: 4rem;
+            }
+
+
+        }
+
+        footer {
+            text-align: center;
+            justify-content: center;
+        }
+    </style>
+
+    <div class="overskift">
+
+        <h1>Bistro Babushka</h1>
+
+    </div>
+    <nav>
+
+
+        <button class="filter valgt" data-kategori="alle">Alle</button>
+        <button class="filter" data-kategori="forretter">Forretter</button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+        <button class="filter" data-kategori="desserter">Desserter</button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+
+
+
+
+    </nav>
+</head>
+
+<body>
+
+    <template>
+        <article>
+            <img src="" alt="">
+            <h2></h2>
+
+
+
+            <p></p>
+
+            <h3></h3>
+
+
+        </article>
+    </template>
+    <div id="popup">
+        <button class="luk">X</button>
+        <section class="indhold">
+            <article class="enkeltperson">
+                <h2></h2>
+                <img class="billede" src="" alt="">
+                <p></p>
+                <h3></h3>
+
+            </article>
+
+
+        </section>
+
+
+
+    </div>
+    <section class="modtager"></section>
+    <script>
+        document.addEventListener("DOMContentLoaded", getjson);
+        const modtagerKloner = document.querySelector(".modtager");
+        const temp = document.querySelector("template");
+        let personer;
+        let filter = "alle";
+
+        async function getjson() {
+
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+
+
+
+            console.log("jsonData", jsonData);
+
+            dyr = await jsonData.json();
+
+            console.log("dyr", dyr);
+
+            visDyr();
+
+            addeventlistenerstobuttonns();
+
+        }
+
+        function visDyr() {
+            modtagerKloner.innerHTML = "";
+
+
+            dyr.feed.entry.forEach((person) => {
+
+                if (filter == "alle" || filter == person.gsx$kategori.$t) {
+
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("img").src = `imgs/small/${person.gsx$billede.$t}-sm.jpg`;
+                    person.gsx$billede.$t;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector("p").textContent = person.gsx$kort.$t;
+                    klon.querySelector("h3").textContent = `Pris: ${person.gsx$pris.$t} kr`;
+
+
+                    modtagerKloner.appendChild(klon)
+                    modtagerKloner.lastElementChild.addEventListener("click", () => {
+                        visSingle(person)
+                    });
+
+                }
+            })
+
+
+        }
+
+        function visSingle(person) {
+
+            document.querySelector("#popup").style.display = "block";
+            document.querySelector("#popup .luk").addEventListener("click", lukSingle);
+
+            document.querySelector(".enkeltperson h2").textContent = person.gsx$navn.$t;
+
+            document.querySelector(".enkeltperson .billede").src = `imgs/large/${person.gsx$billede.$t}.jpg`;
+
+            document.querySelector(".enkeltperson .billede").alt = person.gsx$billede.$t;
+
+            document.querySelector("#popup p").textContent = person.gsx$lang.$t;
+
+            document.querySelector("#popup h3").textContent = `Pris: ${person.gsx$pris.$t}Kr`;
+
+
+        }
+
+
+        function lukSingle() {
+            document.querySelector("#popup").style.display = "none";
+        }
+
+        function addeventlistenerstobuttonns() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtering);
+            })
+        }
+
+
+        function filtering() {
+
+            filter = this.dataset.kategori;
+            visDyr();
+        }
+    </script>
+</body>
+<footer>
+    <p>Tlf: 20302032</p>
+</footer></html>

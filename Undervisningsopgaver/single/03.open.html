@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+
+
+
+    <h1>Alle</h1>
+    <nav>
+
+
+        <button class="filter valgt" data-køn="alle">Alle</button>
+        <button class="filter" data-køn="k">Kvinder</button>
+        <button class="filter" data-køn="m">Mænd</button>
+        <button class="filter" data-køn="andet">Andet</button>
+
+
+
+
+    </nav>
+    <style>
+        img {
+            width: 30%;
+
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin: 10px;
+
+        }
+
+        .filter:hover {
+            background: yellow;
+        }
+
+        .filter:focus {
+            background: red;
+        }
+
+        .filter {
+            margin-right: 10px;
+        }
+
+
+
+
+
+
+        .modtager {
+            text-align: center;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            max-width: 1080px;
+            margin: 0 auto;
+
+
+        }
+
+        article {
+            border: 1px solid black
+        }
+
+
+        article:nth-child(even) {
+
+            background: #777272;
+        }
+
+        article:nth-child(odd) {
+
+            background: #9b9a9a;
+        }
+
+
+        #popup {
+
+
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 1000vw;
+            background: red;
+            display: none;
+        }
+
+        .indhold {
+
+            width: 70vw;
+            min-height: 50vh;
+            background: #FFF;
+            margin: 4rem auto;
+            padding: 10px;
+        }
+
+        .luk {
+            position: fixed;
+            right: 0;
+            font-size: 2rem;
+
+
+        }
+
+        @media screen and (min-width: 600px) {
+            .modtager {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+        }
+
+        @media screen and (min-width:960px) {
+            .modtager {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+
+            <p class="github"></p>
+
+
+        </article>
+    </template>
+    <div id="popup">
+        <button class="luk">X</button>
+        <section class="indhold">
+            <article class="enkeltperson">
+                <h2></h2>
+                <img class="billede" src="" alt="">
+                <p>Github:<a class="githubo" href=""></a></p>
+
+            </article>
+
+
+        </section>
+
+
+
+    </div>
+    <section class="modtager"></section>
+    <script>
+        document.addEventListener("DOMContentLoaded", getjson);
+        const modtagerKloner = document.querySelector(".modtager");
+        const temp = document.querySelector("template");
+        let personer;
+        let filter = "alle";
+
+        async function getjson() {
+
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+
+
+
+            console.log("jsonData", jsonData);
+
+            dyr = await jsonData.json();
+
+            console.log("dyr", dyr);
+
+            visDyr();
+
+            addeventlistenerstobuttonns();
+
+
+
+        }
+
+
+        function visDyr() {
+
+            modtagerKloner.innerHTML = "";
+
+
+            dyr.feed.entry.forEach((person) => {
+
+                if (filter == "alle" || filter == person.gsx$køn.$t) {
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+                    klon.querySelector(".github").textContent = person.gsx$github.$t;
+
+
+
+                    modtagerKloner.appendChild(klon)
+                    modtagerKloner.lastElementChild.addEventListener("click", () => {
+                        visSingle(person)
+                    });
+
+                }
+            })
+
+
+        }
+
+
+        function visSingle(person) {
+
+            document.querySelector("#popup").style.display = "block";
+            document.querySelector("#popup .luk").addEventListener("click", lukSingle);
+
+            document.querySelector(".enkeltperson h2").textContent = person.gsx$navn.$t;
+
+
+            document.querySelector(".enkeltperson .billede").src = person.gsx$billede.$t;
+
+            document.querySelector(".enkeltperson .billede").alt = person.gsx$navn.$t;
+
+
+            document.querySelector(".enkeltperson .githubo").href = `https://github.com/${person.gsx$github.$t}`;
+            document.querySelector(".enkeltperson .githubo").textContent = `https://github.com/${person.gsx$github.$t}`;
+            document.querySelector(".enkeltperson .historie").textContent = person.gsx$historie.$t;
+
+        }
+
+        function lukSingle() {
+            document.querySelector("#popup").style.display = "none";
+        }
+
+        function addeventlistenerstobuttonns() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtering);
+            })
+        }
+
+
+        function filtering() {
+
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+
+
+            visDyr();
+        }
+    </script>
+</body></html>
